@@ -12,10 +12,7 @@ struct ContentView: View {
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
 
-    // Alert
-    @State private var alertTitle = ""
     @State private var alertMessage = ""
-    @State private var showingAlert = false
 
     static var defaultWakeTime: Date {
         var components = DateComponents()
@@ -29,51 +26,39 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Form {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("When do you want to wake up?")
-                        .font(.headline)
-
+                //Challenge 4 -> Switched to sections
+                Section(header: Text("When do you want to wake up?")) {
                     DatePicker("Please enter a time", selection: $wakeUp,
                                displayedComponents: .hourAndMinute)
                         .labelsHidden()
                         .datePickerStyle(WheelDatePickerStyle())
                 }
 
-
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Desired amount of sleep")
-                        .font(.headline)
-
+                Section(header: Text("Desired amount of sleep")) {
                     Stepper(value: $sleepAmount, in: 4...12, step: 0.25) {
                         Text("\(sleepAmount, specifier: "%g") hours")
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Daily coffee intake")
-                        .font(.headline)
-
-                    Stepper(value: $coffeeAmount, in: 1...20) {
-                        coffeeAmount == 1 ? Text("1 Cup") :
-                            Text("\(coffeeAmount) Cups")
+                Section(header: Text("Daily coffee intake")) {
+                    // Challenge 4 -> Replace stepper with picker
+                    Picker("Number of cups", selection: $coffeeAmount) {
+                        ForEach(1..<21) {
+                            Text("\($0) \($0 == 1 ? "Cup" : "Cups")")
+                        }
                     }
                 }
 
-                .alert(isPresented: $showingAlert) {
-                    Alert(title: Text(alertTitle), message: Text(alertMessage),
-                          dismissButton: .default(Text("OK")))
+                Section(header: Text("Time for bed:")) {
+                    Text("\(bedtime)")
                 }
             }
             .navigationBarTitle("BetterRest")
-            .navigationBarItems(trailing:
-                Button(action: calculateBedtime) {
-                    Text("Calculate")
-                }
-            )
         }
     }
 
-    func calculateBedtime() {
+    // Challenge 4 -> Replace alert with constantly updating label to be more state-based
+    var bedtime: String {
         let components = Calendar.current.dateComponents([.hour, .minute], from: wakeUp)
         let hour = (components.hour ?? 0) * 60 * 60
         let minute = (components.minute ?? 0) * 60
@@ -87,13 +72,10 @@ struct ContentView: View {
             let formatter = DateFormatter()
             formatter.timeStyle = .short
 
-            alertTitle = "Your ideal bedtime is..."
-            alertMessage = formatter.string(from: sleepTime)
+            return formatter.string(from: sleepTime)
         } catch {
-            alertTitle = "Error"
-            alertMessage = "Sorry, there was a problem calculating your bedtime."
+            return "Sorry, there was a problem calculating your bedtime."
         }
-        showingAlert = true
     }
 }
 
