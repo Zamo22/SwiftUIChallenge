@@ -29,6 +29,11 @@ struct ContentView: View {
     @State private var scoreMessage = ""
     @State private var currentScore = 0
 
+    @State private var correctFlagRotationAnimationAmount = 0.0
+    @State private var incorrectFlagOpacityAmount = 1.0
+
+    @State private var actualCorrectFlagAnimationAmount: CGFloat = 0.0
+
 
     var body: some View {
         ZStack {
@@ -46,9 +51,25 @@ struct ContentView: View {
 
                 ForEach(0 ..< 3) { number in
                     Button(action: {
-                        flagTapped(number)
+                        withAnimation() {
+                            flagTapped(number)
+                        }
                     }) {
                         FlagImage(imageName: countries[number])
+                            // Challenge 6 to add animations
+                            .rotation3DEffect(
+                                .degrees(correctAnswer == number ? correctFlagRotationAnimationAmount : 0),
+                                axis: (x: 0, y: 1.0, z: 0.0))
+                            .opacity(correctAnswer != number ? incorrectFlagOpacityAmount : 1)
+                            .overlay(
+                                Capsule()
+                                    .stroke(Color.green)
+                                    .scaleEffect(correctAnswer == number ?
+                                                    actualCorrectFlagAnimationAmount : 0)
+                                    .opacity(Double(2 - actualCorrectFlagAnimationAmount))
+                                    .animation(Animation.easeOut(duration: actualCorrectFlagAnimationAmount > 0 ? 2 : 0)
+                                                .repeatCount(3, autoreverses: false))
+                            )
                     }
 
                     .alert(isPresented: $showingScore) {
@@ -71,9 +92,15 @@ struct ContentView: View {
             currentScore += 1
             scoreTitle = "Correct!"
             scoreMessage = "Your score is \(currentScore)"
+            correctFlagRotationAnimationAmount += 360
+            incorrectFlagOpacityAmount = 0.25
+            actualCorrectFlagAnimationAmount = 0
         } else {
             scoreTitle = "Wrong!"
             scoreMessage = "You tapped the flag of \(countries[number])"
+            correctFlagRotationAnimationAmount = 0
+            incorrectFlagOpacityAmount = 1
+            actualCorrectFlagAnimationAmount = 2
         }
 
         showingScore = true
@@ -82,6 +109,9 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        correctFlagRotationAnimationAmount = 0
+        incorrectFlagOpacityAmount = 1.0
+        actualCorrectFlagAnimationAmount = 0
     }
 
 }
