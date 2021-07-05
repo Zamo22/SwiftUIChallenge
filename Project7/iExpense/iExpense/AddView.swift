@@ -13,6 +13,7 @@ struct AddView: View {
     @State private var amount = ""
 
     @ObservedObject var expenses: Expenses
+    @State private var isShowingInvalidAlert = false
 
     @Environment(\.presentationMode) var presentationMode
 
@@ -30,6 +31,10 @@ struct AddView: View {
                 TextField("Amount", text: $amount)
                     .keyboardType(.numberPad)
             }
+            .alert(isPresented: $isShowingInvalidAlert) {
+                Alert(title: Text("Invalid Expense"),
+                      message: Text("The amount you entered is invalid"), dismissButton: .default(Text("Retry")))
+            }
             .navigationBarTitle("Add new expense")
             .navigationBarItems(
                 trailing: Button("Save") {
@@ -37,6 +42,8 @@ struct AddView: View {
                         let item = ExpenseItem(name: name, type: type, amount: actualAmount)
                         expenses.items.append(item)
                         presentationMode.wrappedValue.dismiss()
+                    } else {
+                        isShowingInvalidAlert = true
                     }
                 }
             )
