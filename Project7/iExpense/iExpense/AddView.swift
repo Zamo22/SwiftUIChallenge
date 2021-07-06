@@ -12,6 +12,11 @@ struct AddView: View {
     @State private var type = "Personal"
     @State private var amount = ""
 
+    ///Testing dwjdjwodwjo
+    @State private var name2 = ""
+    @State private var type2 = "Personal"
+    @State private var amount2 = ""
+
     @ObservedObject var expenses: Expenses
     @State private var isShowingInvalidAlert = false
 
