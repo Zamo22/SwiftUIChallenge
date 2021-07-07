@@ -9,6 +9,22 @@ import SwiftUI
 
 struct AstronautView: View {
     let astronaut: Astronaut
+    let astronautMissions: [Mission]
+
+    init(astronaut: Astronaut) {
+        self.astronaut = astronaut
+        let missions: [Mission] = Bundle.main.decode("missions.json")
+
+        var matches = [Mission]()
+        for mission in missions {
+            for crew in mission.crew {
+                if crew.name == astronaut.id {
+                    matches.append(mission)
+                }
+            }
+        }
+        self.astronautMissions = matches
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -22,6 +38,16 @@ struct AstronautView: View {
                     Text(self.astronaut.description)
                         .padding()
                         .layoutPriority(1)
+
+                    Text("Missions:")
+                        .font(.headline)
+                        .padding()
+
+                    ForEach(astronautMissions) {
+                        Text($0.displayName)
+                            .font(.body)
+                            .padding()
+                    }
                 }
             }
         }

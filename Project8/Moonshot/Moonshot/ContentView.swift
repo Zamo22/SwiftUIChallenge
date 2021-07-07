@@ -7,9 +7,40 @@
 
 import SwiftUI
 
+// Challenge for this project:
+struct SubtitleView: View {
+    let mission: Mission
+    let shouldDisplayCrew: Bool
+
+    var body: some View {
+        Group {
+            if !shouldDisplayCrew {
+                Text(mission.formattedLaunchDate)
+                    .font(.body)
+            } else {
+                ForEach(matchingAstronauts) {
+                    Text($0.name)
+                }
+            }
+        }
+    }
+
+    private var matchingAstronauts: [Astronaut] {
+        let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
+        var matches = [Astronaut]()
+        for crew in mission.crew {
+            if let matchingAstronaut = astronauts.first(where: { $0.id == crew.name}) {
+                matches.append(matchingAstronaut)
+            }
+        }
+        return matches
+    }
+}
+
 struct ContentView: View {
     let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
     let missions: [Mission] = Bundle.main.decode("missions.json")
+    @State private var crewToggle = false
 
     var body: some View {
         NavigationView {
@@ -24,10 +55,16 @@ struct ContentView: View {
                     VStack(alignment: .leading) {
                         Text(mission.displayName)
                             .font(.headline)
-                        Text(mission.formattedLaunchDate)
+                        SubtitleView(mission: mission,
+                                     shouldDisplayCrew: crewToggle)
                     }
                 }
             }
+            .navigationBarItems(leading:
+                                    Button("Toggle info") {
+                                        crewToggle.toggle()
+                                    }
+            )
             .navigationBarTitle("Moonshot")
         }
     }

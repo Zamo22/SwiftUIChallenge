@@ -41,6 +41,8 @@ struct MissionView: View {
                         .frame(maxWidth: geo.size.width * 0.7)
                         .padding(.top)
 
+                    Text(mission.formattedLaunchDate)
+
                     Text(mission.description)
                         .padding()
 
