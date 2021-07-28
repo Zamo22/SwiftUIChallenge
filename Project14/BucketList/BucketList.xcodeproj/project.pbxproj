@@ -13,6 +13,10 @@
 		171857ED26AF683E00D9C35A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 171857EC26AF683E00D9C35A /* Preview Assets.xcassets */; };
 		171857F526AF6D0600D9C35A /* LoadingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171857F426AF6D0600D9C35A /* LoadingViews.swift */; };
 		1718580526B06BC900D9C35A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718580426B06BC900D9C35A /* MapView.swift */; };
+		1718581926B1D0ED00D9C35A /* MKPointAnnotation-ObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581826B1D0ED00D9C35A /* MKPointAnnotation-ObservableObject.swift */; };
+		1718581B26B1D16500D9C35A /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581A26B1D16500D9C35A /* EditView.swift */; };
+		1718581D26B1D44F00D9C35A /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581C26B1D44F00D9C35A /* Result.swift */; };
+		1718581F26B1E44000D9C35A /* MKPointAnnotation-Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581E26B1E44000D9C35A /* MKPointAnnotation-Codable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		171857EE26AF683E00D9C35A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		171857F426AF6D0600D9C35A /* LoadingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViews.swift; sourceTree = "<group>"; };
 		1718580426B06BC900D9C35A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		1718581826B1D0ED00D9C35A /* MKPointAnnotation-ObservableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointAnnotation-ObservableObject.swift"; sourceTree = "<group>"; };
+		1718581A26B1D16500D9C35A /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		1718581C26B1D44F00D9C35A /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		1718581E26B1E44000D9C35A /* MKPointAnnotation-Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointAnnotation-Codable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,10 @@
 				171857EB26AF683E00D9C35A /* Preview Content */,
 				171857F426AF6D0600D9C35A /* LoadingViews.swift */,
 				1718580426B06BC900D9C35A /* MapView.swift */,
+				1718581826B1D0ED00D9C35A /* MKPointAnnotation-ObservableObject.swift */,
+				1718581A26B1D16500D9C35A /* EditView.swift */,
+				1718581C26B1D44F00D9C35A /* Result.swift */,
+				1718581E26B1E44000D9C35A /* MKPointAnnotation-Codable.swift */,
 			);
 			path = BucketList;
 			sourceTree = "<group>";
@@ -146,7 +158,11 @@
 			files = (
 				171857F526AF6D0600D9C35A /* LoadingViews.swift in Sources */,
 				1718580526B06BC900D9C35A /* MapView.swift in Sources */,
+				1718581B26B1D16500D9C35A /* EditView.swift in Sources */,
 				171857E826AF683C00D9C35A /* ContentView.swift in Sources */,
+				1718581D26B1D44F00D9C35A /* Result.swift in Sources */,
+				1718581926B1D0ED00D9C35A /* MKPointAnnotation-ObservableObject.swift in Sources */,
+				1718581F26B1E44000D9C35A /* MKPointAnnotation-Codable.swift in Sources */,
 				171857E626AF683C00D9C35A /* BucketListApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
