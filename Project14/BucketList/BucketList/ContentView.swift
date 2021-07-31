@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var selectedPlace: MKPointAnnotation?
 
     @State private var showingPlaceDetails = false
+    @State private var showingAuthError = false
     @State private var showingEditScreen = false
 
     @State private var isUnlocked = false
@@ -22,36 +23,18 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if isUnlocked {
-                MapView(centerCoordinate: $centerCoordinate, selectedPlace: $selectedPlace,
-                        showingPlaceDetails: $showingPlaceDetails, annotations: locations)
-                    .edgesIgnoringSafeArea(.all)
-                Circle()
-                    .fill(Color.blue)
-                    .opacity(0.3)
-                    .frame(width: 32, height: 32)
-
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            let newLocation = CodableMKPointAnnotation()
-                            newLocation.title = "Example Location"
-                            newLocation.coordinate = centerCoordinate
-                            locations.append(newLocation)
-                            selectedPlace = newLocation
-                            showingEditScreen = true
-                        }) {
-                            Image(systemName: "plus")
-                        }
-                        .padding()
-                        .background(Color.black.opacity(0.75))
-                        .foregroundColor(.white)
-                        .font(.title)
-                        .clipShape(Circle())
-                        .padding(.trailing)
+                AuthenticatedView(centerCoordinate: $centerCoordinate,
+                                  locations: $locations,
+                                  selectedPlace: $selectedPlace,
+                                  showingAlert: $showingPlaceDetails,
+                                  showingEditScreen: $showingEditScreen)
+                    .alert(isPresented: $showingPlaceDetails) {
+                        Alert(title: Text(selectedPlace?.title ?? "Unknown"),
+                              message: Text(selectedPlace?.subtitle ?? "Missing place information"),
+                              primaryButton: .default(Text("OK")), secondaryButton: .default(Text("Edit")) {
+                                showingEditScreen = true
+                              })
                     }
-                }
             } else {
                 Button("Unlock places") {
                     authenticate()
@@ -60,16 +43,15 @@ struct ContentView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
+                .alert(isPresented: $showingAuthError) {
+                    Alert(title: Text("Authentication error"),
+                          message: Text("An error occured whilst authenticating you"),
+                          dismissButton: .default(Text("Try again")))
+                }
             }
         }
         .onAppear(perform: loadData)
-        .alert(isPresented: $showingPlaceDetails) {
-            Alert(title: Text(selectedPlace?.title ?? "Unknown"),
-                  message: Text(selectedPlace?.subtitle ?? "Missing place information"),
-                  primaryButton: .default(Text("OK")), secondaryButton: .default(Text("Edit")) {
-                    showingEditScreen = true
-                  })
-        }
+
         .sheet(isPresented: $showingEditScreen, onDismiss: saveData) {
             if selectedPlace != nil {
                 EditView(placemark: selectedPlace!)
@@ -109,17 +91,16 @@ struct ContentView: View {
             let reason = "We need to unlock your data."
 
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                // authentication has now completed
                 DispatchQueue.main.async {
                     if success {
                         isUnlocked = true
                     } else {
-                        // there was a problem
+                        showingAuthError = true
                     }
                 }
             }
         } else {
-            // no biometrics
+            showingAuthError = true
         }
     }
 }

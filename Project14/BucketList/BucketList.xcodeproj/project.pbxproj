@@ -17,6 +17,7 @@
 		1718581B26B1D16500D9C35A /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581A26B1D16500D9C35A /* EditView.swift */; };
 		1718581D26B1D44F00D9C35A /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581C26B1D44F00D9C35A /* Result.swift */; };
 		1718581F26B1E44000D9C35A /* MKPointAnnotation-Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718581E26B1E44000D9C35A /* MKPointAnnotation-Codable.swift */; };
+		171858A326B5F68F00D9C35A /* AuthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171858A226B5F68F00D9C35A /* AuthenticatedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		1718581A26B1D16500D9C35A /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		1718581C26B1D44F00D9C35A /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		1718581E26B1E44000D9C35A /* MKPointAnnotation-Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointAnnotation-Codable.swift"; sourceTree = "<group>"; };
+		171858A226B5F68F00D9C35A /* AuthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				1718581A26B1D16500D9C35A /* EditView.swift */,
 				1718581C26B1D44F00D9C35A /* Result.swift */,
 				1718581E26B1E44000D9C35A /* MKPointAnnotation-Codable.swift */,
+				171858A226B5F68F00D9C35A /* AuthenticatedView.swift */,
 			);
 			path = BucketList;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				1718580526B06BC900D9C35A /* MapView.swift in Sources */,
 				1718581B26B1D16500D9C35A /* EditView.swift in Sources */,
 				171857E826AF683C00D9C35A /* ContentView.swift in Sources */,
+				171858A326B5F68F00D9C35A /* AuthenticatedView.swift in Sources */,
 				1718581D26B1D44F00D9C35A /* Result.swift in Sources */,
 				1718581926B1D0ED00D9C35A /* MKPointAnnotation-ObservableObject.swift in Sources */,
 				1718581F26B1E44000D9C35A /* MKPointAnnotation-Codable.swift in Sources */,
