@@ -15,11 +15,13 @@ struct ContentView: View {
     @State private var image: UIImage?
 
     @State private var items = [RememberItem]()
+    let locationFetcher = LocationFetcher()
 
     var body: some View {
         NavigationView {
             List(items, id: \.self) { item in
-                NavigationLink(destination: DetailView(image: item.image)) {
+                NavigationLink(destination: DetailView(image: item.image,
+                                                       annotation: item.location)) {
                     HStack {
                         Image(uiImage: item.image)
                             .resizable()
@@ -50,6 +52,7 @@ struct ContentView: View {
     }
 
     private func fetchItems() {
+        locationFetcher.start()
         let fileName = FileManager.getDocumentsDirectory().appendingPathComponent("RememberedNames")
         do {
             let data = try Data(contentsOf: fileName)
@@ -61,7 +64,15 @@ struct ContentView: View {
 
     private func nameAdded() {
         guard let image = image else { return }
-        items.append(RememberItem(name: itemName, image: image))
+        guard let currentLocation = locationFetcher.lastKnownLocation else {
+            debugPrint("Unable to get image")
+            return
+        }
+        let newLocation = CodableMKPointAnnotation()
+        newLocation.title = itemName
+        newLocation.coordinate = currentLocation
+
+        items.append(RememberItem(name: itemName, image: image, location: newLocation))
         do {
             let fileName = FileManager.getDocumentsDirectory().appendingPathComponent("RememberedNames")
             let data = try JSONEncoder().encode(items)

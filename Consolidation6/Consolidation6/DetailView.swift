@@ -9,11 +9,17 @@ import SwiftUI
 
 struct DetailView: View {
     @State var image: UIImage
+    @State var annotation: CodableMKPointAnnotation
 
     var body: some View {
-        Image(uiImage: image)
-            .resizable()
-            .padding()
-            .scaledToFit()
+        VStack {
+            Image(uiImage: image)
+                .resizable()
+                .padding()
+                .scaledToFit()
+            
+            MapView(annotation: annotation)
+                .padding()
+        }
     }
 }
