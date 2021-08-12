@@ -14,6 +14,7 @@
 		17A3F38526C3F3E600DF53A8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3F38426C3F3E600DF53A8 /* Card.swift */; };
 		17A3F38726C3F76000DF53A8 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3F38626C3F76000DF53A8 /* CardView.swift */; };
 		17A3F38926C41EDF00DF53A8 /* EditCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3F38826C41EDF00DF53A8 /* EditCards.swift */; };
+		17A3F3AD26C54D0B00DF53A8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3F3AC26C54D0B00DF53A8 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		17A3F38426C3F3E600DF53A8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		17A3F38626C3F76000DF53A8 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		17A3F38826C41EDF00DF53A8 /* EditCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCards.swift; sourceTree = "<group>"; };
+		17A3F3AC26C54D0B00DF53A8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				17A3F38426C3F3E600DF53A8 /* Card.swift */,
 				17A3F38626C3F76000DF53A8 /* CardView.swift */,
 				17A3F38826C41EDF00DF53A8 /* EditCards.swift */,
+				17A3F3AC26C54D0B00DF53A8 /* SettingsView.swift */,
 			);
 			path = FlashZilla;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 				17A3F37626C2F4BA00DF53A8 /* ContentView.swift in Sources */,
 				17A3F38526C3F3E600DF53A8 /* Card.swift in Sources */,
 				17A3F38726C3F76000DF53A8 /* CardView.swift in Sources */,
+				17A3F3AD26C54D0B00DF53A8 /* SettingsView.swift in Sources */,
 				17A3F38926C41EDF00DF53A8 /* EditCards.swift in Sources */,
 				17A3F37426C2F4BA00DF53A8 /* FlashZillaApp.swift in Sources */,
 			);

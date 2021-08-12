@@ -21,6 +21,9 @@ struct ContentView: View {
 
     @State private var cards = [Card]()
     @State private var showingEditScreen = false
+    @State private var showingSettingsScreen = false
+
+    @State private var requeueCards = false
 
     @State private var timeRemaining = 100
     @State private var isActive = true
@@ -35,16 +38,43 @@ struct ContentView: View {
 
             VStack {
                 HStack {
-                    Text("Time: \(timeRemaining)")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 5)
-                        .background(
-                            Capsule()
-                                .fill(Color.black)
-                                .opacity(0.75)
-                        )
+
+                    Button(action: {
+                        showingSettingsScreen = true
+                    }) {
+                        Image(systemName: "gear")
+                            .padding()
+                            .background(Color.black.opacity(0.7))
+                            .clipShape(Circle())
+                    }
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                    .padding()
+
+                    if timeRemaining > 0 {
+                        Text("Time: \(timeRemaining)")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 5)
+                            .background(
+                                Capsule()
+                                    .fill(Color.black)
+                                    .opacity(0.75)
+                            )
+                    } else {
+                        Text("Times up!")
+                            .font(.largeTitle)
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 5)
+                            .background(
+                                Capsule()
+                                    .fill(Color.black)
+                                    .opacity(0.75)
+                            )
+                    }
+
 
                     Button(action: {
                         self.showingEditScreen = true
@@ -61,15 +91,15 @@ struct ContentView: View {
 
 
                 ZStack {
-                    ForEach(0..<cards.count, id: \.self) { index in
-                        CardView(card: self.cards[index]) {
+                    ForEach(cards) { card in
+                        CardView(card: card) { isIncorrect in
                             withAnimation {
-                                self.removeCard(at: index)
+                                self.removeCard(at: self.index(for: card), isIncorrect: isIncorrect)
                             }
                         }
-                        .stacked(at: index, in: self.cards.count)
-                        .allowsHitTesting(index == self.cards.count - 1)
-                        .accessibility(hidden: index < self.cards.count - 1)
+                        .stacked(at: self.index(for: card), in: self.cards.count)
+                        .allowsHitTesting(self.index(for: card) == self.cards.count - 1)
+                        .accessibility(hidden: self.index(for: card) < self.cards.count - 1)
                     }
                 }
                 .allowsHitTesting(timeRemaining > 0)
@@ -90,7 +120,7 @@ struct ContentView: View {
                     HStack {
                         Button(action: {
                             withAnimation {
-                                self.removeCard(at: self.cards.count - 1)
+                                self.removeCard(at: self.cards.count - 1, isIncorrect: true)
                             }
                         }) {
                             Image(systemName: "xmark.circle")
@@ -132,23 +162,38 @@ struct ContentView: View {
         .onReceive(timer) { time in
             guard self.isActive else { return }
             if self.timeRemaining > 0 {
-                self.timeRemaining -= 1
+//                self.timeRemaining -= 1
             }
         }
         .sheet(isPresented: $showingEditScreen, onDismiss: resetCards) {
             EditCards()
         }
+        .sheet(isPresented: $showingSettingsScreen, onDismiss: resetCards) {
+            SettingsView()
+        }
         .onAppear(perform: resetCards)
     }
 
-    func removeCard(at index: Int) {
-        guard index >= 0 else { return }
+    func allows(index: Int) -> Bool {
+        print(cards)
+        return index == self.cards.count - 1
+    }
 
+    func removeCard(at index: Int, isIncorrect: Bool = false) {
+        guard index >= 0 else { return }
+        let card = cards[index]
+        let newCard = Card(prompt: card.prompt, answer: card.answer)
         cards.remove(at: index)
+
+        if requeueCards && isIncorrect {
+            cards.insert(newCard, at: 0)
+        }
 
         if cards.isEmpty {
             isActive = false
         }
+
+        print(cards)
     }
 
     func resetCards() {
@@ -163,7 +208,17 @@ struct ContentView: View {
                 self.cards = decoded
             }
         }
+
+        if let data = UserDefaults.standard.data(forKey: "Settings") {
+            if let decoded = try? JSONDecoder().decode(Bool.self, from: data) {
+                self.requeueCards = decoded
+            }
+        }
     }
+
+    func index(for card: Card) -> Int {
+            return cards.firstIndex(where: { $0.id == card.id }) ?? 0
+        }
 }
 
 struct ContentView_Previews: PreviewProvider {
