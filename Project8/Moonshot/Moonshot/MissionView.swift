@@ -35,12 +35,17 @@ struct MissionView: View {
         GeometryReader { geo in
             ScrollView(.vertical) {
                 VStack {
-                    Image(mission.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: geo.size.width * 0.7)
-                        .padding(.top)
-                        .accessibility(hidden: true)
+                    GeometryReader { imageGeometry in
+                        Image(mission.image)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.top)
+                            .frame(width: imageGeometry.size.width, height: imageGeometry.size.height)
+                            .scaleEffect(1 - self.scaleFactor(geometry: geo, imageGeometry: imageGeometry))
+                            .offset(x: 0, y: self.scaleFactor(geometry: geo, imageGeometry: imageGeometry) * imageGeometry.size.height / 2)
+                            .accessibility(hidden: true)
+                    }
+                    .frame(height: geo.size.width * 0.75)
 
                     Text(mission.formattedLaunchDate)
 
@@ -77,6 +82,16 @@ struct MissionView: View {
         }
         .navigationBarTitle(Text(mission.displayName), displayMode: .inline)
     }
+
+    func scaleFactor(geometry: GeometryProxy, imageGeometry: GeometryProxy) -> CGFloat {
+            let imagePosition = imageGeometry.frame(in: .global).minY
+            let safeAreaHeight = geometry.safeAreaInsets.top
+
+            return (safeAreaHeight - imagePosition) / 500
+
+            // if zoom needs to be capped
+            //return -min(0.5, (imagePosition - safeAreaHeight) / 500)
+        }
 }
 
 struct MissionView_Previews: PreviewProvider {
